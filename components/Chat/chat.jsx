@@ -62,14 +62,15 @@ export default function Chat() {
           },
 
           item(hit, { html, components }) {
+            const title = hit.name.split(':')[0];
+            const subtitle = hit.name.split(':')[1];
             return html`
-              <article>
-                <img src="${hit.images[0].url}" alt="no-img" style={{ height: '150px' }} />
-                <h2>${components.Highlight({ attribute: 'name', hit })}</h2>
-                <p>${hit.description}</p>
-                <p>${hit.price}</p>
-                <a href="${hit.url}">View item</a>
-              </article>
+                <a href="${hit?.relativeUrls?.l2Url ?? '#'}">
+                  <img src="${hit.images[0].url}" style="width: 100%; height: auto" />
+                  <h4 class="ais-Carousel-title">${title}</h4>
+                  <p class="ais-Carousel-subtitle">${subtitle}</p>
+                  <p class="ais-Carousel-price">$${hit.price?.default}</p>
+                </a>
             `;
           },
           prompt: {

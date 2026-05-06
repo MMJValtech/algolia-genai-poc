@@ -213,19 +213,15 @@
 }
 
 .ais-Carousel-list {
-  grid-auto-columns: 42%;
-  display: grid;
-  grid-auto-flow: column;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   overflow-x: auto;
   scroll-behavior: smooth;
   scroll-snap-type: x proximity;
 }
 
-@media (min-width: 999px) {
-  .ais-Carousel-list {
-    grid-auto-columns: 20%;
-  }
-}
+
 .ais-Carousel-navigation {
   position: absolute;
   top: 35%;
@@ -244,6 +240,33 @@
 
 .ais-Carousel-item {
   scroll-snap-align: start;
+  width: 18rem;
+  align-items: center;
+  text-align: center;
+  margin: 0.5rem;
+  background-color: rgba(var(--ais-background-color-rgb) ,1);
+}
+
+.ais-Carousel-title {
+  font-family: var(--font-cormorant);
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.ais-Carousel-subtitle {
+  font-size: 0.8rem;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+.ais-Carousel-price {
+  font-size: 0.8rem;
+  font-weight: 400;
+  padding: 1rem 0;
 }
 
 :root {
@@ -263,6 +286,7 @@
   /* Background color */
   --ais-background-color-rgb: 255, 255, 255;
   --ais-background-color-alpha: 1;
+  --ais-chat-message-background-color-rgb: 245, 245, 245;
   /* Overlay color */
   --ais-overlay-color-rgb: 115, 114, 129;
   --ais-overlay-color-alpha: 0.4;
@@ -356,7 +380,7 @@
 }
 
 .ais-ChatMessage-message .ais-Carousel-list:focus-visible, .ais-Button:focus-visible {
-  outline: 2px solid rgba(var(--ais-primary-color-rgb), var(--ais-primary-color-alpha));
+  outline: 2px solid rgba(var(--ais-tiffany-blue-rgb), var(--ais-primary-color-alpha));
   outline-offset: 2px;
 }
 
@@ -380,7 +404,7 @@
   gap: calc(var(--ais-spacing) * 0.25);
   margin: 0;
   background-color: transparent;
-  border-radius: var(--ais-border-radius-sm);
+  border-radius: var(--ais-border-radius-lg);
   font-family: inherit;
   font-size: var(--ais-font-size);
   line-height: 1em;
@@ -416,7 +440,7 @@
 }
 
 .ais-Button--primary {
-  background-color: rgba(var(--ais-primary-color-rgb), var(--ais-primary-color-alpha));
+  background-color: rgba(var(--ais-tiffany-blue-rgb), var(--ais-primary-color-alpha));
   color: rgba(var(--ais-button-text-color-rgb), var(--ais-button-text-color-alpha));
   border: 1px solid transparent;
 }
@@ -425,7 +449,7 @@
 }
 @media (hover: hover) {
   .ais-Button--primary:hover:not(:disabled) {
-    background-color: color-mix(in srgb, rgb(var(--ais-primary-color-rgb)), rgb(var(--ais-background-color-rgb)) 20%);
+    background-color: color-mix(in srgb, rgb(var(--ais-tiffany-blue-rgb)), rgb(var(--ais-background-color-rgb)) 20%);
   }
 }
 .ais-Button--primary:active:not(:disabled) {
@@ -745,6 +769,9 @@
   text-wrap: pretty;
   font-size: calc(var(--ais-spacing) * 0.875);
   line-height: calc(var(--ais-spacing) * 1.25);
+  background-color: rgba(var(--ais-chat-message-background-color-rgb) ,1);
+  padding: 1rem;
+  border-radius: var(--ais-border-radius-lg) var(--ais-border-radius-lg) 0 var(--ais-border-radius-lg);
 }
 .ais-ChatMessage-message img {
   max-width: 100%;
@@ -949,7 +976,7 @@
 
 .ais-ChatPrompt-body:focus-within {
   outline: 1px solid rgba(var(--ais-primary-color-rgb), var(--ais-primary-color-alpha));
-  border-color: rgba(var(--ais-primary-color-rgb), var(--ais-primary-color-alpha));
+  border-color: rgba(var(--ais-tiffany-blue-rgb), var(--ais-primary-color-alpha));
 }
 
 .ais-ChatPrompt-textarea {
@@ -991,6 +1018,7 @@
 }
 .ais-ChatPrompt-actions svg {
   width: calc(var(--ais-icon-size) * 0.8);
+  color:black
 }
 
 @media (max-width: 680px) {
@@ -1033,13 +1061,7 @@
   text-decoration: none;
 }
 .ais-ChatMessage-message .ais-Carousel::before, .ais-ChatMessage-message .ais-Carousel::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: var(--ais-spacing);
-  pointer-events: none;
-  z-index: 1;
+
 }
 .ais-ChatMessage-message .ais-Carousel::before {
   left: calc(-1 * var(--ais-spacing));
@@ -1100,7 +1122,7 @@
   background-color: rgba(var(--ais-muted-color-rgb), 0.2);
 }
 .ais-ChatMessage-message .ais-Carousel-hit:has(:focus-visible) {
-  outline: 2px solid rgba(var(--ais-primary-color-rgb), var(--ais-primary-color-alpha));
+  outline: 2px solid rgba(var(--ais-tiffany-blue-rgb), var(--ais-primary-color-alpha));
   outline-offset: 2px;
 }
 .ais-ChatMessage-message .ais-Carousel-hit-title {
