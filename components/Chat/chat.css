@@ -684,10 +684,17 @@
   align-items: center;
   width: 95%;
   font-family: var(--font-cormorant);
-  font-size: 2.5rem;
+  font-size: 2rem;
   line-height: 2.2rem;
   text-align: center;
   margin-bottom: 1rem;
+}
+@media (min-width: 680px) {
+  .ais-ChatHeader-title {
+    margin-bottom: default;
+    font-size: 2.5rem;
+  line-height: 2.2rem;
+  }
 }
 
 
@@ -824,7 +831,15 @@
   line-height: calc(var(--ais-spacing) * 1.25);
   background-color: rgba(var(--ais-chat-message-background-color-rgb) ,1);
   padding: 1rem;
-  border-radius: var(--ais-border-radius-lg) var(--ais-border-radius-lg) 0 var(--ais-border-radius-lg);
+  border-radius: var(--ais-border-radius-lg) var(--ais-border-radius-lg) var(--ais-border-radius-lg) 0;
+  display: flex;
+  flex-direction: column-reverse;
+  
+}
+.ais-ChatMessage-message span {
+  font-family: var(--font-cormorant);
+  font-size: 1.2rem;
+  line-height: 1.25;
 }
 .ais-ChatMessage-message img {
   max-width: 100%;
@@ -1120,11 +1135,12 @@
 }
 .ais-ChatMessage-message .ais-Carousel {
   position: relative;
-  margin-bottom: var(--ais-spacing);
+  margin: var(--ais-spacing) 0;
 }
 .ais-ChatMessage-message .ais-Carousel a {
   color: rgba(var(--ais-text-color-rgb), var(--ais-text-color-alpha));
   text-decoration: none;
+  margin-top: 0.5rem;
 }
 .ais-ChatMessage-message .ais-Carousel::before, .ais-ChatMessage-message .ais-Carousel::after {
 
@@ -1283,4 +1299,94 @@
 }
 .ais-ChatPromptSuggestions-suggestion:active:not(:disabled) {
   background-color: rgba(var(--ais-muted-color-rgb), 0.3);
+}
+
+/* Rich starter tiles (custom templates.suggestions) — image + label; click sends `prompt` */
+.ais-ChatPromptSuggestions-cards {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: calc(var(--ais-spacing) * 0.75) 0 0;
+  padding: 0;
+  gap: 0.75rem;
+}
+.ais-ChatPromptSuggestions-card {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: stretch;
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: rgba(var(--ais-background-color-rgb), var(--ais-background-color-alpha));
+  color: rgba(var(--ais-text-color-rgb), var(--ais-text-color-alpha));
+  
+  
+}
+@media (min-width: 680px) {
+  .ais-ChatPromptSuggestions-card {
+    width: 36rem;
+    margin: 0.5rem;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ais-ChatPromptSuggestions-card {
+    transition: border-color var(--ais-transition-duration) var(--ais-transition-timing-function),
+      box-shadow var(--ais-transition-duration) var(--ais-transition-timing-function);
+  }
+}
+@media (hover: hover) {
+  .ais-ChatPromptSuggestions-card:hover {
+    border-color: rgba(var(--ais-primary-color-rgb), 0.45);
+    box-shadow: var(--ais-shadow-sm);
+  }
+}
+.ais-ChatPromptSuggestions-card-image {
+  display: block;
+  aspect-ratio: 1;
+  background-color: rgba(var(--ais-muted-color-rgb), 0.08);
+  width: 10rem;
+}
+@media (min-width: 680px) {
+  .ais-ChatPromptSuggestions-card-image {
+    width: 15rem;
+  }
+}
+.ais-ChatPromptSuggestions-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.ais-ChatPromptSuggestions-card-label {
+  display: block;
+  padding: 2rem;
+  font-size: 1.5rem;
+  line-height: 1.25;
+  font-family: var(--font-cormorant);
+  font-style: italic;
+  background-color: rgba(var(--ais-chat-message-background-color-rgb), 1);
+  text-align: left;
+  width: 21rem;
+}
+.ais-ChatPromptSuggestions-text-card {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: stretch;
+  max-width: 100%;
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: rgba(var(--ais-background-color-rgb), var(--ais-background-color-alpha));
+}
+.ais-ChatPromptSuggestions-text-card-label {
+  display: block;
+  padding: 1rem;
+  font-size: 1.2rem;
+  line-height: 1.25;
+  font-family: var(--font-cormorant);
+  font-style: italic;
+  background-color: rgba(var(--ais-chat-message-background-color-rgb), 1);
+  text-align: center;
 }

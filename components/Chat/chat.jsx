@@ -8,6 +8,38 @@ import { chat } from "instantsearch.js/es/widgets";
 import "./chat.css";
 import { carousel } from 'instantsearch.js/es/templates/index.js'
 
+/** Display label + image in suggestions; `prompt` is what gets sent when clicked. */
+const STARTER_SUGGESTIONS = [
+  {
+    prompt: "Romantic Gifts to Celebrate Every Anniversary",
+    label: "Romantic Gifts to Celebrate Every Anniversary",
+    imageUrl:
+      "https://media.tiffany.com/is/image/tco/2025_HOLIDAY_STILL_1x1_9-3",
+  },
+  {
+    prompt: "Timeless Gifts to Commemorate any Milestone",
+    label: "Timeless Gifts to Commemorate any Milestone",
+    imageUrl:
+      "https://media.tiffany.com/is/image/tco/2025_HOLIDAY_STILL_1x1_5-4",
+  },
+  {
+    prompt: "Wedding & Engagement Gifts to Cherish",
+    label: "Wedding & Engagement Gifts to Cherish",
+    imageUrl:
+      "https://media.tiffany.com/is/image/tcoqa/45752661_RG_SIO2X1?hei=1204&wid=1204&fmt=webp&op_usm=1%2C2%2C6",
+  },
+  {
+    prompt: "The perfect \"Just Because\" to Add to Your Collection",
+    label: "The perfect \"Just Because\" to Add to Your Collection",
+    imageUrl:
+      "https://media.tiffany.com/is/image/tco/2025_HOLIDAY_STILL_4X5_14-1",
+  },
+];
+
+const starterSuggestionPrompts = STARTER_SUGGESTIONS.map((s) => s.prompt);
+const starterSuggestionByPrompt = Object.fromEntries(
+  STARTER_SUGGESTIONS.map((s) => [s.prompt, s]),
+);
 
 const appID = process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID;
 const apiKey = process.env.NEXT_PUBLIC_ALGOLIA_API_KEY;
@@ -29,13 +61,35 @@ export default function Chat() {
         container: el,
         agentId,
         resume: false,
-        getSearchPageURL: (nextUiState) => `/search?${qs.stringify(nextUiState)}`,
-        initialMessages: [
+        getSearchPageURL: (nextUiState) => {
+          const params = new URLSearchParams();
+          Object.entries(nextUiState).forEach(([key, value]) => {
+            if (value === undefined || value === null) return;
+            params.set(
+              key,
+              typeof value === "object" ? JSON.stringify(value) : String(value),
+            );
+          });
+          return `/search?${params.toString()}`;
+        },
+        messages: [
           {
-            text: "Hi! How can I help you today?"
+            id: "welcome",
+            role: "assistant",
+            parts: [
+              {
+                type: "text",
+                text: [
+                  "Hi! Choose a category below or ask anything in your own words.",
+                ].join("\n"),
+              },
+              {
+                type: "data-suggestions",
+                data: { suggestions: starterSuggestionPrompts },
+              },
+            ],
           },
         ],
-        initialUserMessage: 'Show me a few popular products to get started.',
         templates: {
           layout: chatInlineLayout(),
           carousel: carousel(),
@@ -46,22 +100,51 @@ export default function Chat() {
 
           suggestions({ suggestions, onSuggestionClick }, { html }) {
             return html`
-              <ul>
-                ${suggestions?.length > 0 ? suggestions.map(
-                  (suggestion) =>
-                    html`<li>
-                      <button onClick=${() => onSuggestionClick(suggestion)} class="ais-ChatPromptSuggestions-suggestion">
-                        ${suggestion}
-                      </button>
-                    </li>`,
-                ) : html`<li>No suggestions</li>`}
+              <ul class="ais-ChatPromptSuggestions-cards" role="list">
+                ${suggestions?.length > 0
+                  ? suggestions.map((prompt) => {
+                    console.log(prompt);
+                      const meta = starterSuggestionByPrompt[prompt];
+                      const label = meta?.label ?? prompt;
+                      const imageUrl = meta?.imageUrl;
+                      console.log(label);
+                      console.log(imageUrl);
+                      if (imageUrl) {
+                      return html`<li>
+                        <button
+                          type="button"
+                          class="ais-ChatPromptSuggestions-card"
+                          onClick=${() => onSuggestionClick(prompt)}
+                        >
+                          ${imageUrl
+                            ? html`<span class="ais-ChatPromptSuggestions-card-image">
+                                <img src="${imageUrl}" alt="" loading="lazy" />
+                              </span>`
+                            : null}
+                          <span class="ais-ChatPromptSuggestions-card-label"
+                            >${label}</span
+                          >
+                        </button>
+                      </li>`;
+                      }
+                      return html`<li>
+                        <button
+                          type="button"
+                          class="ais-ChatPromptSuggestions-text-card"
+                          onClick=${() => onSuggestionClick(prompt)}
+                        >
+                          <span class="ais-ChatPromptSuggestions-text-card-label">${label}</span>
+                        </button>
+                      </li>`;
+                    })
+                  : null}
               </ul>
             `;
           },
 
           item(hit, { html, components }) {
-            const title = hit.name.split(':')[0];
-            const subtitle = hit.name.split(':')[1];
+            const title = hit.name?.split(':')[0];
+            const subtitle = hit.name?.split(':')[1];
             return html`
                 <a href="${hit?.relativeUrls?.l2Url ?? '#'}">
                   <div class="ais-Carousel-image">
