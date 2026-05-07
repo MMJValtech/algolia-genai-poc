@@ -148,8 +148,9 @@ export default function Chat() {
             return html`
                 <a href="${hit?.relativeUrls?.l2Url ?? '#'}">
                   <div class="ais-Carousel-image">
-                    <img src="${hit.images[0].url}" />
-                    ${hit.images[1]?.url && html`<div class="ais-Carousel-item-image-overlay">
+                    
+                    ${hit.images[1]?.url && html`<img src="${hit.images[0].url}" />
+                      <div class="ais-Carousel-item-image-overlay">
                       <img src="${hit.images[1]?.url}" />
                     </div>`}
                     ${hit?.variationsAvailable?.materials > 1 && html`<div class="ais-Carousel-item-image-materials">

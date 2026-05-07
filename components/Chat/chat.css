@@ -833,7 +833,7 @@
   padding: 1rem;
   border-radius: var(--ais-border-radius-lg) var(--ais-border-radius-lg) var(--ais-border-radius-lg) 0;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   
 }
 .ais-ChatMessage-message span {
@@ -1135,7 +1135,7 @@
 }
 .ais-ChatMessage-message .ais-Carousel {
   position: relative;
-  margin: var(--ais-spacing) 0;
+  margin: 0 0 var(--ais-spacing) 0;
 }
 .ais-ChatMessage-message .ais-Carousel a {
   color: rgba(var(--ais-text-color-rgb), var(--ais-text-color-alpha));
@@ -1306,7 +1306,6 @@
   display: flex;
   flex-wrap: wrap;
   list-style: none;
-  margin: calc(var(--ais-spacing) * 0.75) 0 0;
   padding: 0;
   gap: 0.75rem;
 }
@@ -1326,7 +1325,7 @@
 }
 @media (min-width: 680px) {
   .ais-ChatPromptSuggestions-card {
-    width: 36rem;
+    width: 33rem;
     margin: 0.5rem;
   }
 }
