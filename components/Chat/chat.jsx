@@ -19,7 +19,7 @@ export default function Chat() {
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-    console.log('yo');
+    console.log(agentId, appID, apiKey);
 
     const searchClient = algoliasearch(appID, apiKey);
     const search = instantsearch({ searchClient });
