@@ -19,7 +19,7 @@ export default function Chat() {
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-    console.log(agentId, appID, apiKey);
+    console.log('yo, Mr White!');
 
     const searchClient = algoliasearch(appID, apiKey);
     const search = instantsearch({ searchClient });
@@ -32,9 +32,7 @@ export default function Chat() {
         getSearchPageURL: (nextUiState) => `/search?${qs.stringify(nextUiState)}`,
         initialMessages: [
           {
-            id: 'welcome',
-            role: 'assistant',
-            parts: [{ type: 'text', text: 'Hi! How can I help you today?' }],
+            text: "Hi! How can I help you today?"
           },
         ],
         initialUserMessage: 'Show me a few popular products to get started.',
@@ -52,7 +50,7 @@ export default function Chat() {
                 ${suggestions?.length > 0 ? suggestions.map(
                   (suggestion) =>
                     html`<li>
-                      <button onClick=${() => onSuggestionClick(suggestion)}>
+                      <button onClick=${() => onSuggestionClick(suggestion)} class="ais-ChatPromptSuggestions-suggestion">
                         ${suggestion}
                       </button>
                     </li>`,
@@ -66,17 +64,25 @@ export default function Chat() {
             const subtitle = hit.name.split(':')[1];
             return html`
                 <a href="${hit?.relativeUrls?.l2Url ?? '#'}">
-                  <img src="${hit.images[0].url}" style="width: 100%; height: auto" />
+                  <div class="ais-Carousel-image">
+                    <img src="${hit.images[0].url}" />
+                    ${hit.images[1]?.url && html`<div class="ais-Carousel-item-image-overlay">
+                      <img src="${hit.images[1]?.url}" />
+                    </div>`}
+                    ${hit?.variationsAvailable?.materials > 1 && html`<div class="ais-Carousel-item-image-materials">
+                     ${hit?.variationsAvailable?.materials} Materials
+                    </div>`}
+                  </div>
                   <h4 class="ais-Carousel-title">${title}</h4>
                   <p class="ais-Carousel-subtitle">${subtitle}</p>
-                  <p class="ais-Carousel-price">$${hit.price?.default}</p>
+                  ${hit.price?.default && html`<p class="ais-Carousel-price">$${hit.price?.default}</p>`} 
                 </a>
             `;
           },
           prompt: {
-            header: (_, { html }) => html`<span>Ask me anything</span>`,
+            header: (_, { html }) => html`<span>Need help finding the perfect gift?</span>`,
             footer: (_, { html }) => html`
-              prompt footer
+              <p class="ais-ChatPrompt-footer-text"></p>
             `,
           },
           loaderText: 'Thinking...',
