@@ -146,7 +146,7 @@ export default function Chat() {
             const title = hit.name?.split(':')[0];
             const subtitle = hit.name?.split(':')[1];
             return html`
-                <a href="${hit?.relativeUrls?.l2Url ?? '#'}">
+                <a href="${hit?.productUrl?.productUrl ?? '#'}">
                   <div class="ais-Carousel-image">
                     
                     ${hit.images[1]?.url && html`<img src="${hit.images[0].url}" />
@@ -159,7 +159,7 @@ export default function Chat() {
                   </div>
                   <h4 class="ais-Carousel-title">${title}</h4>
                   <p class="ais-Carousel-subtitle">${subtitle}</p>
-                  ${hit.price?.default && html`<p class="ais-Carousel-price">$${hit.price?.default}</p>`} 
+                  ${hit.parentPrice?.from && html`<p class="ais-Carousel-price">$${hit.parentPrice?.from}</p>`} 
                 </a>
             `;
           },
